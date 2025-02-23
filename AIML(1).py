@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
+# In[3]:
 
 
 import pandas as pd
@@ -12,13 +12,13 @@ print(df.info())  # Data types & missing values
 print(df.describe())  # Summary statistics
 
 
-# In[3]:
+# In[4]:
 
 
 print(df.isnull().sum())
 
 
-# In[4]:
+# In[5]:
 
 
 import matplotlib.pyplot as plt
@@ -74,7 +74,7 @@ X
 y
 
 
-# In[10]:
+# In[8]:
 
 
 from sklearn.preprocessing import StandardScaler
@@ -83,7 +83,7 @@ scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)  # Scale the selected features
 
 
-# In[11]:
+# In[9]:
 
 
 from sklearn.model_selection import train_test_split
@@ -91,19 +91,25 @@ from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
 
 
-# In[12]:
+# In[10]:
 
 
 X_train
 
 
-# In[13]:
+# In[11]:
 
 
 X_test
 
 
-# In[14]:
+# In[21]:
+
+
+y_test
+
+
+# In[13]:
 
 
 from sklearn.linear_model import LogisticRegression
@@ -114,26 +120,26 @@ lr = LogisticRegression()
 lr.fit(X_train, y_train)
 
 
-# In[15]:
+# In[14]:
 
 
 y_lr_train_pred = lr.predict(X_train)
 y_lr_test_pred = lr.predict(X_test)
 
 
-# In[16]:
+# In[15]:
 
 
 print(y_lr_train_pred)
 
 
-# In[17]:
+# In[16]:
 
 
 print(y_lr_test_pred)
 
 
-# In[18]:
+# In[17]:
 
 
 # Model 2: Random Forest
@@ -141,20 +147,20 @@ rf = RandomForestClassifier(n_estimators=100, random_state=42)
 rf.fit(X_train, y_train)
 
 
-# In[19]:
+# In[18]:
 
 
 y_rf_train_pred = rf.predict(X_train)
 y_rf_test_pred = rf.predict(X_test)
 
 
-# In[20]:
+# In[19]:
 
 
 print(y_rf_train_pred)
 
 
-# In[21]:
+# In[20]:
 
 
 print(y_rf_test_pred)
@@ -174,8 +180,8 @@ print(classification_report(y_test, y_lr_test_pred))
 print("Accuracy:", accuracy_score(y_test, y_lr_test_pred))
 
 print("\nRandom Forest Performance:")
-print(classification_report(y_test, y_lr_test_pred))
-print("Accuracy:", accuracy_score(y_test, y_lr_test_pred))
+print(classification_report(y_test, y_rf_test_pred))
+print("Accuracy:", accuracy_score(y_test, y_rf_test_pred))
 
 
 # In[23]:
@@ -209,20 +215,23 @@ y_pred_best_rf = best_rf.predict(X_test)
 print("\nImproved Random Forest Accuracy:", accuracy_score(y_test, y_pred_best_rf))
 
 
-# In[26]:
+# In[29]:
+
 
 
 import joblib
 
-# Save the trained model
-joblib.dump(best_rf, "diabetes_model.pkl")
-print("Model saved as diabetes_model.pkl")
+# Save the models
+joblib.dump(rf, "rf_model.pkl")
+joblib.dump(lr, "lr_model.pkl")
+
+print("Models saved successfully!")
 
 
-# In[28]:
+# In[34]:
 
 
-get_ipython().system('jupyter nbconvert --to AIML.ipynb')
+print("Scikit-Learn Version:", sklearn.__version__)
 
 
 # In[ ]:
