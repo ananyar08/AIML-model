@@ -7,7 +7,8 @@ from pydantic import BaseModel
 app = FastAPI()
 
 # Load the trained model
-model = joblib.load("diabetes_model.pkl")
+model = joblib.load("rf_model.pkl")
+model = joblib.load("lr_model.pkl")
 
 # Define input data format
 class DiabetesInput(BaseModel):
