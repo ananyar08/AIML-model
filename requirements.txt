@@ -83,3 +83,7 @@ websocket-client==1.8.0
 widgetsnbextension==4.0.13
 fastapi
 uvicorn
+numpy
+pandas
+scikit-learn
+pickle-mixin
