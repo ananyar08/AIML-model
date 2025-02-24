@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Diabetes Prediction</title>
+  </head>
+  <body>
+    <h1>Diabetes Prediction Interface</h1>
+    <form id="prediction-form">
+      <label for="Glucose">Glucose:</label>
+      <input type="number" id="Glucose" name="Glucose" required /><br />
+
+      <label for="BMI">BMI:</label>
+      <input type="number" step="0.1" id="BMI" name="BMI" required /><br />
+
+      <label for="Age">Age:</label>
+      <input type="number" id="Age" name="Age" required /><br />
+
+      <label for="BloodPressure">Blood Pressure:</label>
+      <input
+        type="number"
+        id="BloodPressure"
+        name="BloodPressure"
+        required
+      /><br />
+
+      <label for="DiabetesPedigreeFunction">Diabetes Pedigree Function:</label>
+      <input
+        type="number"
+        step="0.001"
+        id="DiabetesPedigreeFunction"
+        name="DiabetesPedigreeFunction"
+        required
+      /><br />
+
+      <button type="submit">Predict</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+      document
+        .getElementById("prediction-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          // Collect form data
+          const data = {
+            Glucose: parseFloat(document.getElementById("Glucose").value),
+            BMI: parseFloat(document.getElementById("BMI").value),
+            Age: parseInt(document.getElementById("Age").value),
+            BloodPressure: parseFloat(
+              document.getElementById("BloodPressure").value
+            ),
+            DiabetesPedigreeFunction: parseFloat(
+              document.getElementById("DiabetesPedigreeFunction").value
+            ),
+          };
+
+          // Send POST request to the FastAPI endpoint
+          fetch("http://localhost:8000/predict", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          })
+            .then((response) => response.json())
+            .then((result) => {
+              document.getElementById(
+                "result"
+              ).innerHTML = `<h2>Prediction: ${result.diabetes_prediction}</h2>`;
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              document.getElementById(
+                "result"
+              ).innerHTML = `<p>Error: ${error}</p>`;
+            });
+        });
+    </script>
+  </body>
+</html>
